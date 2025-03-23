@@ -5637,4 +5637,142 @@ export const Abilities: import('../sim/dex-abilities').AbilityDataTable = {
 		rating: 3,
 		num: -4,
 	},
+	// Cobblemon abilities
+	surge: {
+		onModifyAtkPriority: 5,
+		onModifyAtk(atk, attacker, defender, move) {
+			if (move.type === 'Electric' && attacker.hp <= attacker.maxhp / 3) {
+				this.debug('Surge boost');
+				return this.chainModify(1.5);
+			}
+		},
+		onModifySpAPriority: 5,
+		onModifySpA(atk, attacker, defender, move) {
+			if (move.type === 'Electric' && attacker.hp <= attacker.maxhp / 3) {
+				this.debug('Surge boost');
+				return this.chainModify(1.5);
+			}
+		},
+		flags: {},
+		name: "Surge",
+		rating: 2,
+		num: 1000,
+	},
+	draconic: {
+		onModifyAtkPriority: 5,
+		onModifyAtk(atk, attacker, defender, move) {
+			if (move.type === 'Dragon' && attacker.hp <= attacker.maxhp / 3) {
+				this.debug('Dragon boost');
+				return this.chainModify(1.5);
+			}
+		},
+		onModifySpAPriority: 5,
+		onModifySpA(atk, attacker, defender, move) {
+			if (move.type === 'Dragon' && attacker.hp <= attacker.maxhp / 3) {
+				this.debug('Dragon boost');
+				return this.chainModify(1.5);
+			}
+		},
+		flags: {},
+		name: "Draconic",
+		rating: 2,
+		num: 1000,
+	},
+	pureguise: {
+		onModifyDamage(damage, source, target, move) {
+			if (source.hp == source.maxhp) {
+				this.debug('Pure Guise boost');
+				return this.chainModify(1.3);
+			}
+		},
+		flags: {},
+		name: "Pure Guise",
+		rating: 3,
+		num: 1001
+
+	},
+	blazingswap: {
+		onModifyMovePriority: 1,
+		onModifyMove(move, attacker, defender) {
+			if (attacker.species.baseSpecies !== 'Aegislash-Delta-Shield' || attacker.transformed) return;
+			if (move.category === 'Status' && move.id !== 'infernalshield') return;
+			const targetForme = (move.id === 'infernalshield' ? 'Aegislash-Delta-Shield' : 'Aegislash-Delta-Sword');
+			if (attacker.species.name !== targetForme) attacker.formeChange(targetForme);
+		},
+		flags: { failroleplay: 1, noreceiver: 1, noentrain: 1, notrace: 1, failskillswap: 1, cantsuppress: 1 },
+		name: "Blazing Swap",
+		rating: 4,
+		num: 1002,
+	},
+	finalverdict: {
+		onResidualOrder: 30,
+		onResidualSubOrder: 3,
+		onResidual(pokemon) {
+			for (const target of pokemon.foes()) {
+				if (target.hp <= target.maxhp * 0.1) {
+					target.faint()
+				}
+			}
+		},
+		onModifyAtkPriority : 5,
+		onModifyAtk(atk, attacker, defender, move) {
+			if (move.category === 'Physical' && move.type === 'Ghost') {
+				this.debug('Final Verdict boost');
+				return this.chainModify(1.3);
+			}
+		},
+		onModifySpAPriority : 5,
+		onModifySpA(atk, attacker, defender, move) {
+			if (move.category === 'Special' && move.type === 'Psychic') {
+				this.debug('Final Verdict boost');
+				return this.chainModify(1.3);
+			}
+		},
+		name: "Final Verdict",
+		rating: 3,
+		num: 1003,
+	},
+	prowler: {
+		onFoeFaint(target, source) {
+			if (source.hp < source.maxhp) {
+				source.heal(source.maxhp * 0.3);
+			}
+		},
+		name: "Prowler",
+		rating: 3,
+		num: 1004,
+	},
+	deathdefiance: {
+		// TODO: make one-time use
+		onDamage(damage, target, source, effect) {
+			if (damage >= target.hp && effect && effect.effectType === 'Move') {
+				this.add("-activate", target, "ability: Death Defiance");
+				return target.hp - 1;
+			}
+		},
+		name: "Death Defiance",
+		rating: 3,
+		num: 1004,
+	},
+	stoneheart: {
+		onModifyAtkPriority: 5,
+		onModifyAtk(atk, attacker, defender, move) {
+			if (move.type === 'Rock') {
+				this.debug('Stoneheart boost');
+				return this.chainModify(1.5);
+			}
+		},
+		onModifySpAPriority: 5,
+		onModifySpA(atk, attacker, defender, move) {
+			if (move.type === 'Rock') {
+				this.debug('Stoneheart boost');
+				return this.chainModify(1.5);
+			}
+		},
+		flags: {},
+		name: "Stoneheart",
+		rating: 3.5,
+		num: 276,
+	},
+	
 };
