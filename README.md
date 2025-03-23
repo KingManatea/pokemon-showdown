@@ -11,6 +11,10 @@ Navigation: [Website][1] | **Server repository** | [Client repository][2] | [Dex
 [![Dependency Status](https://img.shields.io/librariesio/github/smogon/pokemon-showdown)](https://libraries.io/github/smogon/pokemon-showdown)
 
 
+This is a project to transfer the Cobblemon system over to pokemon showdown. This is not affiliated with the Cobblemon project at all, and is a fan project intended to improve the Cobblemon community.
+Developed by KingManatea
+
+
 Introduction
 ------------------------------------------------------------------------
 
